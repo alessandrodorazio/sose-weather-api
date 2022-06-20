@@ -1,4 +1,5 @@
 package it.univaq.aggm;
+import javax.jws.WebService;
 import javax.ws.rs.*;
 
 import org.codehaus.jettison.json.JSONException;
@@ -11,7 +12,8 @@ import java.io.IOException;
 
 @Path("cities")
 @Produces("text/xml")
-public class CityRepository {
+@WebService(endpointInterface = "it.univaq.aggm.CityRepositoryInterface")
+public class CityRepository implements CityRepositoryInterface {
 	@GET
     @Path("getWeather/{cityName}")
     public City getCourse(@PathParam("cityName") String cityName) throws IOException, JSONException {
