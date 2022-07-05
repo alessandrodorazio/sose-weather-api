@@ -14,6 +14,7 @@ public class StartService {
 	public static void main(String[] args) {
 		startRest();
 		startSoap();
+		System.out.println("weather");
 	}
 	
 	public static void startRest() {
