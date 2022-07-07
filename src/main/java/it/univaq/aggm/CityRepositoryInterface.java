@@ -9,5 +9,5 @@ import org.codehaus.jettison.json.JSONException;
 @WebService
 public interface CityRepositoryInterface {
 	@WebMethod
-    public City getCourse(String cityName) throws IOException, JSONException;
+    public City getWeatherByCoordinates(String coordinates) throws IOException, JSONException;
 }

@@ -7,6 +7,16 @@ public class City {
 	private float temperature;
 	private String weather;
 	
+	public City() {
+		
+	}
+	
+	public City(String name, float temperature, String weather) {
+		this.name = name;
+		this.temperature = temperature;
+		this.weather = weather;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}

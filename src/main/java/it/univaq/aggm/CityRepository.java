@@ -10,31 +10,28 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import java.io.IOException;
 
-@Path("cities")
+@Path("weather")
 @Produces("text/xml")
 @WebService(endpointInterface = "it.univaq.aggm.CityRepositoryInterface")
 public class CityRepository implements CityRepositoryInterface {
-	@GET
-    @Path("getWeather/{cityName}")
-    public City getCourse(@PathParam("cityName") String cityName) throws IOException, JSONException {
-		
-		JSONObject fetchedData = getData(cityName);
+	@GET @Path("byCoordinates/{coordinates}")
+    public City getWeatherByCoordinates(@PathParam("coordinates") String coordinates) throws IOException, JSONException {
+		JSONObject fetchedData = getData(coordinates);
 		JSONObject current = (JSONObject) fetchedData.get("current");
-		City c = new City();
-		c.setName(fetchedData.getJSONObject("location").getString("name"));
-		c.setTemperature(Float.parseFloat(current.get("temp_c").toString()));
-		c.setWeather(((JSONObject)current.get("condition")).get("text").toString()) ;
-        return c;
+		String cityName = fetchedData.getJSONObject("location").getString("name");
+		float temperature = Float.parseFloat(current.get("temp_c").toString());
+		String weatherDescription = ((JSONObject)current.get("condition")).get("text").toString() ;
+        return new City(cityName, temperature, weatherDescription);
     }
 	
-	private JSONObject getData(String cityName) throws IOException, JSONException {
+	private JSONObject getData(String coordinates) throws IOException, JSONException {
 		OkHttpClient client = new OkHttpClient();
-		String url ="https://weatherapi-com.p.rapidapi.com/current.json?q=" + cityName;
-		Request request = new Request.Builder()
-			.url(url).get()
-			.addHeader("X-RapidAPI-Host", "weatherapi-com.p.rapidapi.com")
-			.addHeader("X-RapidAPI-Key", "ITzvQqsKNgmshs8XqVDlBbKhtxe0p1cANiTjsn8iql5X6IiJej")
-			.build();
+		String url ="https://weatherapi-com.p.rapidapi.com/current.json?q=" + coordinates;
+		String rapidAPIHost = "weatherapi-com.p.rapidapi.com";
+		String apiKey = "ITzvQqsKNgmshs8XqVDlBbKhtxe0p1cANiTjsn8iql5X6IiJej";
+		Request request = new Request.Builder().url(url).get()
+				.addHeader("X-RapidAPI-Host", rapidAPIHost)
+				.addHeader("X-RapidAPI-Key", apiKey).build();
 
 		Response response = client.newCall(request).execute();
 		String jsonData = response.body().string();
