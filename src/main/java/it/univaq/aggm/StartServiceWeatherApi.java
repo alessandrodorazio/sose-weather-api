@@ -29,10 +29,7 @@ public class StartServiceWeatherApi {
 
 	
 	public static void startSoap(String soapAddress) {
-		Endpoint ep = Endpoint.create(new CityRepository());
-		List<Handler> handlerChain = ep.getBinding().getHandlerChain();
-		ep.getBinding().setHandlerChain(handlerChain);
-		ep.publish(soapAddress);
+		Endpoint.publish(soapAddress, new CityRepository());
 		System.out.println("SOAP server ready...");
 	}
 }
