@@ -26,13 +26,9 @@ public class CityRepository implements CityRepositoryInterface {
 	
 	private JSONObject getData(String coordinates) throws IOException, JSONException {
 		OkHttpClient client = new OkHttpClient();
-		String url ="https://weatherapi-com.p.rapidapi.com/current.json?q=" + coordinates;
-		String rapidAPIHost = "weatherapi-com.p.rapidapi.com";
-		String apiKey = "ITzvQqsKNgmshs8XqVDlBbKhtxe0p1cANiTjsn8iql5X6IiJej";
-		Request request = new Request.Builder().url(url).get()
-				.addHeader("X-RapidAPI-Host", rapidAPIHost)
-				.addHeader("X-RapidAPI-Key", apiKey).build();
-
+		String key = "8883827c647647e3bde121720223005";
+		String url ="http://api.weatherapi.com/v1/current.json?q=" + coordinates + "&key=" + key;
+		Request request = new Request.Builder().url(url).get().build();
 		Response response = client.newCall(request).execute();
 		String jsonData = response.body().string();
 	    JSONObject Jobject = new JSONObject(jsonData);
